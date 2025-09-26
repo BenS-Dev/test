@@ -312,7 +312,7 @@ class Web3FormHandler {
       <div style="background: #EF4444; color: white; padding: 1rem; border-radius: 10px; margin-top: 1rem; text-align: center;">
         <i class="fas fa-exclamation-triangle"></i>
         <strong>Something went wrong.</strong><br>
-        Please try again or call us directly at <a href="tel:+15617714853" style="color: white; text-decoration: underline;">(561) 771-GULF</a>
+        Please try again or call us directly at <a href="tel:+18444853744" style="color: white; text-decoration: underline;">1-844-GULFSHINE</a>
       </div>
     `;
   }
