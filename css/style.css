@@ -2168,6 +2168,23 @@ input[type="checkbox"]:checked + .checkbox-custom::after {
   font-size: 0.9rem;
 }
 
+.reviews-swiper {
+  padding: 0.5rem 0 3rem;
+}
+
+.reviews-swiper .swiper-slide {
+  height: auto;
+}
+
+.reviews-pagination .swiper-pagination-bullet {
+  background: rgba(15, 23, 42, 0.25);
+  opacity: 1;
+}
+
+.reviews-pagination .swiper-pagination-bullet-active {
+  background: var(--color-sky-blue);
+}
+
 /* Premium Contact Section */
 .contact-section {
   position: relative;

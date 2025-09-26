@@ -27,6 +27,76 @@ const heroSlider = new Swiper('.hero-slider', {
   }
 });
 
+// Reviews slider
+const reviewsSwiper = new Swiper('.reviews-swiper', {
+  slidesPerView: 1.15,
+  spaceBetween: 24,
+  loop: true,
+  speed: 9000,
+  autoplay: {
+    delay: 0,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true
+  },
+  pagination: {
+    el: '.reviews-pagination',
+    clickable: true
+  },
+  breakpoints: {
+    640: {
+      slidesPerView: 1.6
+    },
+    768: {
+      slidesPerView: 2.3
+    },
+    1024: {
+      slidesPerView: 3.2
+    },
+    1280: {
+      slidesPerView: 3.6
+    }
+  }
+});
+
+// Phone input formatting (digits only display)
+document.addEventListener('DOMContentLoaded', () => {
+  const phoneInput = document.getElementById('phone');
+  if (!phoneInput) return;
+
+  const formatPhone = (digits) => {
+    const area = digits.slice(0, 3);
+    const prefix = digits.slice(3, 6);
+    const line = digits.slice(6, 10);
+
+    if (digits.length <= 3) return area ? `(${area}` : '';
+    if (digits.length <= 6) return `(${area}) ${prefix}`.trim();
+    return `(${area}) ${prefix}-${line}`.trim();
+  };
+
+  const enforceDigits = () => {
+    const digits = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+    phoneInput.value = formatPhone(digits);
+  };
+
+  phoneInput.addEventListener('input', enforceDigits);
+  phoneInput.addEventListener('focus', () => phoneInput.setCustomValidity(''));
+  phoneInput.addEventListener('blur', () => {
+    const digits = phoneInput.value.replace(/\D/g, '');
+    if (!digits) {
+      phoneInput.value = '';
+      phoneInput.setCustomValidity('');
+      return;
+    }
+
+    if (digits.length !== 10) {
+      phoneInput.setCustomValidity('Please enter a 10-digit phone number.');
+    } else {
+      phoneInput.setCustomValidity('');
+      phoneInput.value = formatPhone(digits);
+    }
+  });
+});
+
 // Typing animation for hero title
 class TypingAnimation {
   constructor(element, text, speed = 100) {
@@ -312,7 +382,7 @@ class Web3FormHandler {
       <div style="background: #EF4444; color: white; padding: 1rem; border-radius: 10px; margin-top: 1rem; text-align: center;">
         <i class="fas fa-exclamation-triangle"></i>
         <strong>Something went wrong.</strong><br>
-        Please try again or call us directly at <a href="tel:+18444853744" style="color: white; text-decoration: underline;">1-844-GULFSHINE</a>
+        Please try again or call us directly at <a href="tel:+18444853744" style="color: white; text-decoration: underline;">1-844-485-3744</a>
       </div>
     `;
   }
