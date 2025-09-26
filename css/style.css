@@ -2361,7 +2361,7 @@ input[type="checkbox"]:checked + .checkbox-custom::after {
 
 .contact-form .checkbox-group {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.1rem;
   width: 100%;
 }
@@ -3073,7 +3073,7 @@ input[type="checkbox"]:checked + .checkbox-custom::after {
 
 .about-points {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: clamp(1.25rem, 3vw, 1.75rem);
   width: 100%;
   max-width: 1020px;
@@ -3116,7 +3116,6 @@ input[type="checkbox"]:checked + .checkbox-custom::after {
   align-items: flex-start;
   background: rgba(59, 130, 246, 0.1);
   border-color: rgba(59, 130, 246, 0.25);
-  grid-column: span 2;
 }
 
 .about-membership-logo {
