@@ -63,37 +63,81 @@ document.addEventListener('DOMContentLoaded', () => {
   const phoneInput = document.getElementById('phone');
   if (!phoneInput) return;
 
-  const formatPhone = (digits) => {
-    const area = digits.slice(0, 3);
-    const prefix = digits.slice(3, 6);
-    const line = digits.slice(6, 10);
+  const parseInput = (raw) => {
+    const plusMatch = raw.match(/^\+{1,2}/);
+    let plus = '';
+    let rest = raw;
+    if (plusMatch) {
+      plus = plusMatch[0].slice(0, 2);
+      rest = rest.slice(plusMatch[0].length);
+    }
 
-    if (digits.length <= 3) return area ? `(${area}` : '';
-    if (digits.length <= 6) return `(${area}) ${prefix}`.trim();
-    return `(${area}) ${prefix}-${line}`.trim();
+    const digits = rest.replace(/\D/g, '').slice(0, 13); // up to 3-digit country + 10-digit local
+    return { plus, digits };
   };
 
-  const enforceDigits = () => {
-    const digits = phoneInput.value.replace(/\D/g, '').slice(0, 10);
-    phoneInput.value = formatPhone(digits);
+  const formatPhone = ({ plus, digits }) => {
+    if (!digits && plus) return plus;
+
+    let country = '';
+    let local = digits;
+
+    if (digits.length > 10) {
+      const extra = Math.min(digits.length - 10, 3);
+      country = digits.slice(0, extra);
+      local = digits.slice(extra);
+    }
+
+    const area = local.slice(0, 3);
+    const prefix = local.slice(3, 6);
+    const line = local.slice(6, 10);
+
+    let output = '';
+
+    if (plus || country) {
+      output += plus || '+';
+      output += country;
+      if (local.length) output += ' ';
+    }
+
+    if (area) {
+      output += `(${area}`;
+      if (area.length === 3) output += ')';
+    }
+
+    if (prefix) {
+      if (area.length === 3) output += ` ${prefix}`;
+    }
+
+    if (line) {
+      output += `-${line}`;
+    }
+
+    return output.trim();
   };
 
-  phoneInput.addEventListener('input', enforceDigits);
+  const enforceFormat = () => {
+    const { plus, digits } = parseInput(phoneInput.value);
+    phoneInput.value = formatPhone({ plus, digits });
+  };
+
+  phoneInput.addEventListener('input', enforceFormat);
   phoneInput.addEventListener('focus', () => phoneInput.setCustomValidity(''));
   phoneInput.addEventListener('blur', () => {
-    const digits = phoneInput.value.replace(/\D/g, '');
+    const { digits } = parseInput(phoneInput.value);
     if (!digits) {
       phoneInput.value = '';
       phoneInput.setCustomValidity('');
       return;
     }
 
-    if (digits.length !== 10) {
-      phoneInput.setCustomValidity('Please enter a 10-digit phone number.');
+    if (digits.length < 10 || digits.length > 13) {
+      phoneInput.setCustomValidity('Please enter a valid phone number.');
     } else {
       phoneInput.setCustomValidity('');
-      phoneInput.value = formatPhone(digits);
     }
+
+    phoneInput.value = formatPhone(parseInput(phoneInput.value));
   });
 });
 
